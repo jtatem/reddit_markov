@@ -63,16 +63,18 @@ class Markov(object):
 
         def textgenerator(self, size=25, seed_word=None, req_punct=True):
 	    while True:
-                success = False
-                while not success:
-		    text = self.generate_markov_text(size=size, seed_word=seed_word)
-		    if endswith_punct(text):
-			yield(text)
-			success = True 
+                if req_punct:
+                    success = False
+                    while not success:
+		        text = self.generate_markov_text(size=size, seed_word=seed_word)
+		        if ends_with_punct(text):
+			    yield(text)
+			    success = True 
+                else:
+  		    yield self.generate_markov_text(size=size, seed_word=seed_word)
 
-
-def endswith_punct(text):
-  return text.endswith('.') or text.endswith('!') or text.endswith('?')	    
+def ends_with_punct(text):
+    return text.endswith('.') or text.endswith('!') or text.endswith('?') 
 
 def markov_from_file(filename):
     f = open(filename)
