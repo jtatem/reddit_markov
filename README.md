@@ -23,6 +23,7 @@ All subject to change.
 
 python -i reddit_markov.py
 
+```python
 >>> m = markov_subreddit('askreddit')
 Found 52 threads for /r/askreddit
 Fetching thread URL https://www.reddit.com/r/AskReddit/comments/4bx577/dd_players_what_have_been_some_of_your_favourite/
@@ -41,6 +42,6 @@ Fetching thread URL https://www.reddit.com/r/AskReddit/comments/4bw721/what_is_t
 "man who knew this fact but I don't know how to get closer. My mom is from A.A. Lewis. You didn't see anyone. I went war."
 >>> gen.next()
 'man /r/unexpectedfactorial This would give me heart disease, and hurt everybody around me, while giving myself cancer! Sounds great! The feeling of independence, freedom, being etc.'
-
+```
 
 
