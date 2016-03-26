@@ -20,8 +20,9 @@ Example
 -------
 
 All subject to change.
-
+```
 python -i reddit_markov.py
+```
 
 ```python
 >>> m = markov_subreddit('askreddit')
