@@ -30,6 +30,8 @@ class Markov(object):
 				self.cache[key].append(w3)
 			else:
 				self.cache[key] = [w3]
+
+   
 				
 	def generate_markov_text(self, size=25, seed_word=None):
 		seed = random.randint(0, self.word_size-3)
@@ -38,9 +40,13 @@ class Markov(object):
 		    next_word = self.words[seed+1]
 		else:
 		    try:
-		      next_word = self.words[self.words.index(seed_word) + 1]
+                      indices = [i for i, x in enumerate(self.words) if x.lower() == seed_word.lower()]
+		      idx = random.choice(indices)
+                      seed_word = self.words[idx]
+		      next_word = self.words[idx + 1]
 		    except:
-		      next_word = self.words[seed]
+		      seed_word = self.words[seed]
+		      next_word = self.words[seed + 1]
 		w1, w2 = seed_word, next_word
 		gen_words = []
 		for i in xrange(size):
@@ -54,3 +60,22 @@ class Markov(object):
 	    f = open(filename, 'w')
 	    f.write(self.text)
 	    f.close()			
+
+        def textgenerator(self, size=25, seed_word=None, req_punct=True):
+	    while True:
+                success = False
+                while not success:
+		    text = self.generate_markov_text(size=size, seed_word=seed_word)
+		    if endswith_punct(text):
+			yield(text)
+			success = True 
+
+
+def endswith_punct(text):
+  return text.endswith('.') or text.endswith('!') or text.endswith('?')	    
+
+def markov_from_file(filename):
+    f = open(filename)
+    text = f.read()
+    f.close()
+    return Markov(text)

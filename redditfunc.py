@@ -34,7 +34,3 @@ def suck_subreddit(subreddit):
         time.sleep(1)
     return comments
 
-def markov_subreddit(subreddit):
-    comments = suck_subreddit(subreddit)
-    return markov.Markov(' '.join(comments))
-        
