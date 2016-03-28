@@ -56,7 +56,7 @@ class Markov(object):
 		return ' '.join(gen_words)
 
      
-	def save_text(filename):
+	def save_text(self, filename):
 	    f = open(filename, 'w')
 	    f.write(self.text)
 	    f.close()			
