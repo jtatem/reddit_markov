@@ -20,6 +20,31 @@ def get_thread_comments(thread_url):
     comments = [re.sub('<[^<]+?>', '', str(d).split('<p>')[1].split('</p>')[0].replace('\n', ' ')) for d in divs if '<p>' in str(d)][1:]
     return comments 
 
+def get_user_comments(user, max_pages=5):
+    first_page_url = 'https://www.reddit.com/user/{0}'.format(user)
+    print('Fetching up to {0} pages of comments for user {1}'.format(max_pages, user))
+    print('Fetching URL {0}'.format(first_page_url))
+    r = requests.get(first_page_url, headers=headers)
+    s = BeautifulSoup(r.text, convertEntities=BeautifulSoup.HTML_ENTITIES)
+    divs = s.findAll('div', {'class': 'md'})
+    comments = [re.sub('<[^<]+?>', '', str(d).split('<p>')[1].split('</p>')[0].replace('\n', ' ')) for d in divs if '<p>' in str(d)]
+    pagecount = 1
+    finished = False
+    while not finished and pagecount < max_pages:
+      nextpagelink = [link.get('href') for link in BeautifulSoup(r.text, parseOnlyThese=SoupStrainer('a')) if link.has_key('href') and 'after' in link.get('href') and 'count={0}'.format(pagecount * 25) in link.get('href')]
+      if len(nextpagelink) == 0:
+        finished = True
+      else:
+        pagecount += 1
+        nextpagelink = str(nextpagelink[0])
+        print('Fetching URL {0}'.format(nextpagelink))
+        r = requests.get(nextpagelink, headers=headers)
+        s = BeautifulSoup(r.text, convertEntities=BeautifulSoup.HTML_ENTITIES)
+	divs = s.findAll('div', {'class': 'md'})
+        comments += [re.sub('<[^<]+?>', '', str(d).split('<p>')[1].split('</p>')[0].replace('\n', ' ')) for d in divs if '<p>' in str(d)]
+    return comments
+      
+
 def suck_subreddit(subreddit):
     threads = get_frontpage_links(subreddit)
     print('Found {0} threads for /r/{1}'.format(len(threads), subreddit))
