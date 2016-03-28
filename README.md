@@ -10,7 +10,7 @@ Later there will probably be a Flask-based interface for this.  Building out cap
 Files
 -----
 
-reddit_markov.py - This will be the primary interface.  Right now consists of a single function 'markov_subreddit()' which will gather comments and return a Markov object.  Get text by calling generate_markov_text() on the Markov object.
+reddit_markov.py - This will be the primary interface.  Right now consists of 2 functions: 'markov_subreddit()' which will gather comments and return a Markov object, 'markov_redditor' will do the same for a user.  Get text by calling generate_markov_text() on the Markov object.
 
 redditfunc.py - Functions for interacting with Reddit
 
